@@ -19,8 +19,11 @@ const Statistics = (props) => {
   const getPercentage = () =>{
     return props.good/getTotal() * 100
   }
-  return <div>
-    <h1>statistics</h1>
+  if(getTotal() ===0){
+    return <p>No Feedback given</p>
+  } else{
+    return <div>
+    
     <Display text='good' value={props.good}/>
     <Display text='neutral' value={props.neutral}/>
     <Display text='bad' value={props.bad}/>
@@ -28,6 +31,8 @@ const Statistics = (props) => {
     <Display text='average' value={getAverage()} />
     <p>positive {getPercentage()} %</p>
   </div>
+  }
+  
 }
 const App = () => {
   // tallenna napit omaan tilaansa
@@ -50,6 +55,7 @@ const App = () => {
       <Button handleClick={() => handleGoodClick()} text ='good'/>
       <Button handleClick={() => handleNeutralClick()} text ='neutral'/>
       <Button handleClick={() => handleBadClick()} text ='bad'/>
+      <h1>statistics</h1>
       <Statistics good ={good} bad={bad} neutral={neutral} />
     </div>
   )
