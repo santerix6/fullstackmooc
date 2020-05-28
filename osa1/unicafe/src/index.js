@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-const Display = (props) => {
+const StatisticLine = (props) => {
   return <div>
     <p>{props.text} {props.value}</p>
   </div>
@@ -24,11 +24,11 @@ const Statistics = (props) => {
   } else{
     return <div>
     
-    <Display text='good' value={props.good}/>
-    <Display text='neutral' value={props.neutral}/>
-    <Display text='bad' value={props.bad}/>
-    <Display text='all' value={getTotal()} />
-    <Display text='average' value={getAverage()} />
+    <StatisticLine text='good' value={props.good}/>
+    <StatisticLine text='neutral' value={props.neutral}/>
+    <StatisticLine text='bad' value={props.bad}/>
+    <StatisticLine text='all' value={getTotal()} />
+    <StatisticLine text='average' value={getAverage()} />
     <p>positive {getPercentage()} %</p>
   </div>
   }
