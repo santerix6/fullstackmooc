@@ -1,13 +1,15 @@
 import React from 'react'
 
 const Course = (props) => {
-  return  (<div>
-  <Header course={props.course} />
-  <Content parts={props.course.parts} />
-  <Total parts={props.course.parts} />
-  </div>
-
-  )
+  return(<div>{props.courses.map(course =>{
+      return(<div key = {course.id}>
+        <Header course={course} />
+        <Content parts={course} />
+        <Total parts={course.parts} />
+        </div>)
+    
+  })}</div>)
+  
 }
 const Header = (props) =>{
     console.log(props.course.name)
@@ -18,11 +20,12 @@ const Header = (props) =>{
     )
   }
   const Content = (props) =>{
-    console.log(props.parts[0])
+    
     return (
       <div>
-          <ul>
-              {props.parts.map(part => 
+          <ul >
+              {props.parts.parts.map(part => 
+                    
                   <li key={part.id}><Part part={part}/></li>
               )}
           </ul>
