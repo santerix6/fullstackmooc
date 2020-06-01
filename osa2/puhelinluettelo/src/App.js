@@ -11,7 +11,18 @@ const App = () => {
     let newPerson = {
       name : newName
     }
-    setPersons(persons.concat(newPerson))
+    console.log(newPerson)
+    let n = persons.some((person) => {
+      return person['name']=== newPerson.name
+    })
+    console.log(n)
+    if(n === true){
+      alert(`${newPerson.name} already added to phonebook`)
+    } else{
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+    }
+
   }
   const handlenameChange = (event) => {
     console.log(event.target.value)
@@ -31,7 +42,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
       {persons.map((person, i) => {
-        return <Person key={i} person={person}/>
+        return <Person key={person.name} person={person}/>
       })}
       </ul>
     </div>
