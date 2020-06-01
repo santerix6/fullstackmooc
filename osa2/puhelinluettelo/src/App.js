@@ -2,14 +2,17 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas' ,
+      number : '045 000 0001 '}
   ])
   const [ newName, setNewName ] = useState('')
-  const addnewName = (event) => {
+  const [newNumber, setNewNumber] =useState('')
+  const addnewInput = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
     let newPerson = {
-      name : newName
+      name : newName,
+      number : newNumber
     }
     console.log(newPerson)
     let n = persons.some((person) => {
@@ -21,8 +24,13 @@ const App = () => {
     } else{
       setPersons(persons.concat(newPerson))
       setNewName('')
+      setNewNumber('')
     }
 
+  }
+  const handlenumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
   }
   const handlenameChange = (event) => {
     console.log(event.target.value)
@@ -31,9 +39,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addnewName}>
+      <form onSubmit={addnewInput}>
         <div>
-          name: <input value={newName} onChange={handlenameChange}/>
+          name: <input value={newName} onChange={handlenameChange}/> <br/>
+          number: <input value={newNumber} onChange={handlenumberChange}/>
         </div>
         <div>
           <button type="submit">add</button>
@@ -49,7 +58,7 @@ const App = () => {
   )
 }
 const Person = (props) => {
-  return <li>{props.person.name}</li>
+  return <li>{props.person.name} {props.person.number}</li>
 }
 
 export default App
