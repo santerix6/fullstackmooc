@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' ,
-      number : '045 000 0001 '}
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
   const [ newName, setNewName ] = useState('')
-  const [newNumber, setNewNumber] =useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [search, setSearch] = useState('')
   const addnewInput = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
@@ -36,9 +39,22 @@ const App = () => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
+  const handlesearchChange = (event) => {
+    console.log(event.target.value)
+    setSearch(event.target.value)
+  }
+  const filteredlist = persons.filter(person => {
+    return person.name.toLowerCase().includes(search.toLowerCase())
+  })
   return (
     <div>
       <h2>Phonebook</h2>
+      <form>
+      <div>
+        filter shown with <input value={search}onChange={handlesearchChange}/>
+      </div>
+      </form>
+      <h2>add a new</h2>
       <form onSubmit={addnewInput}>
         <div>
           name: <input value={newName} onChange={handlenameChange}/> <br/>
@@ -50,7 +66,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-      {persons.map((person, i) => {
+      {filteredlist.map((person, i) => {
         return <Person key={person.name} person={person}/>
       })}
       </ul>
