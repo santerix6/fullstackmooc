@@ -1,5 +1,5 @@
 {
-  "persons":[
+  "persons": [
     {
       "name": "Arto Hellas",
       "number": "040-123456",
@@ -19,6 +19,26 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
+    },
+    {
+      "name": "sane",
+      "number": "3232",
+      "id": 5
+    },
+    {
+      "name": "pete ",
+      "number": "696969",
+      "id": 6
+    },
+    {
+      "name": "jake",
+      "number": "1234",
+      "id": 7
+    },
+    {
+      "name": "suvi",
+      "number": "kesä",
+      "id": 8
     }
   ]
 }
