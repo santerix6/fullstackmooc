@@ -29,7 +29,7 @@ const App = () => {
         <Filter search={search} onChange={handlesearchChange} />
     </div>
     <div>
-        <Countries filteredlist={filteredlist}/>
+        <Countries filteredlist={filteredlist} search={search} setSearch={setSearch}/>
     </div>
     </div>
   )
