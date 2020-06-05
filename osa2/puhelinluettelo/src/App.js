@@ -10,6 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState(null)
+
   useEffect(() => {
     personservice
       .getAll()
@@ -44,11 +45,17 @@ const App = () => {
               setMessage(null)
             }, 5000)
             })
+            .catch(error => {
+              setMessage(`${newPerson.name} has allready been removed from server.`)
+              setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+            })
             .then(response => {
               personservice
                 .getAll()
                 .then(response => {
-                  
+
                   setPersons(response)
                   setNewName('')
                   setNewNumber('')

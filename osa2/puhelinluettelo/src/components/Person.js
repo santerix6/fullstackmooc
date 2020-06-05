@@ -6,8 +6,15 @@ const Person = (props) => {
     if(window.confirm(`Delete ${x.name}`)){
       personservice
         .deletePerson(x.id)
+
         .then(response =>{
           props.setMessage(`deleted ${x.name} `)
+          setTimeout(() => {
+          props.setMessage(null)
+        }, 5000)
+        })
+        .catch(error => {
+          props.setMessage(`${x.name} has allready been removed from server.`)
           setTimeout(() => {
           props.setMessage(null)
         }, 5000)
@@ -17,10 +24,9 @@ const Person = (props) => {
             .getAll()
             .then(response => {
               props.setPersons(response)
-            }).catch(error => {
-              props.setMessage(`${x.name} has allready been removed.`)
             })
         })
+
     }
 
   }
