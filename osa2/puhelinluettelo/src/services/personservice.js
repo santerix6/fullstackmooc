@@ -13,8 +13,12 @@ const deletePerson = (id) => {
   const request = axios.delete(baseurl+'/'+id)
   return request.then(response => request.data)
 }
+const update = (id, newObject) => {
+  return axios.put(`${baseurl}/${id}`, newObject)
+}
 export default {
   getAll : getAll,
   newPerson : newPerson,
-  deletePerson : deletePerson
+  deletePerson : deletePerson,
+  update : update
 }
