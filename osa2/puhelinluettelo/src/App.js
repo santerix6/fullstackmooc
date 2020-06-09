@@ -25,16 +25,13 @@ const App = () => {
       name : newName,
       number : newNumber
     }
-    console.log(newPerson)
     let n = persons.some((person) => {
       return person['name']=== newPerson.name
     })
-    console.log(n)
     if(n === true){
       var per = persons.find((person)=>{
         return person['name'] === newPerson.name
       })
-      console.log(per)
       if(window.confirm(`${newPerson.name} already added to phonebook, replace then
         old number with new one?`)){
           personservice
@@ -66,11 +63,20 @@ const App = () => {
     } else{
       personservice
         .newPerson(newPerson)
-
         .then(response => {
-          setPersons(persons.concat(response))
-          setNewName('')
-          setNewNumber('')
+          personservice
+            .getAll()
+            .then(res => {
+              setPersons(res)
+              setNewName('')
+              setNewNumber('')
+            })
+        })
+        .catch(error => {
+          setMessage(`${newPerson.name} adding failed.`)
+          setTimeout(() => {
+          setMessage(null)
+        }, 5000)
         })
         .then(() =>{
           setMessage(`added ${newPerson.name} `)
@@ -93,7 +99,6 @@ const App = () => {
     setSearch(event.target.value)
   }
   const filteredlist = persons.filter(person => {
-    console.log(person)
     return person.name.toLowerCase().includes(search.toLowerCase())
   })
 
