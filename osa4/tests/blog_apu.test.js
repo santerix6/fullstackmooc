@@ -40,6 +40,23 @@ test('the id tag is used to define', async () =>{
   const response = await api.get('/api/blogs')
   expect(response.body[0].id).toBeDefined()
 })
+test('post request rises the blogs size by one and right blog is added to the db', async () => {
+  const newBlog = {
+    title : 'maailman komein mies',
+    author : 'santeri',
+    url : 'www.lolesports.com',
+    likes : 1488
+  }
+  const res = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+  const res1 = await api.get('/api/blogs')
+  expect(res1.body).toHaveLength(initialNotes.length + 1)
+  //testataan onko uusimman title sama kuin lisätyn title.
+  expect(res1.body[res1.body.length-1].title).toBe(newBlog.title)
+
+})
 afterAll(() => {
   mongoose.connection.close()
 })
