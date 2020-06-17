@@ -3,16 +3,16 @@ const logger = require('C:/Users/Santeri/fullstack/fullstackmooc/osa4/utils/logg
 const config = require('C:/Users/Santeri/fullstack/fullstackmooc/osa4/utils/config.js')
 const mongoUrl = config.MONGODB_URI
 try {
-  mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true})
+  mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
   logger.info('connected to MonboDB', mongoUrl)
 } catch(error)  {
     logger.error('error connecting to MonboDB', error.message)
   }
 const blogSchema = mongoose.Schema({
-  title: String,
+  title: {type: String, required : true},
   author: String,
-  url: String,
-  likes: Number
+  url: {type: String, required : true},
+  likes: {type: Number, default: 0}
 })
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
