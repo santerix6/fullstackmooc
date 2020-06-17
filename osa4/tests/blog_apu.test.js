@@ -36,6 +36,10 @@ test('size is equal to intitialnotes', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body.length).toBe(initialNotes.length)
 })
+test('the id tag is used to define', async () =>{
+  const response = await api.get('/api/blogs')
+  expect(response.body[0].id).toBeDefined()
+})
 afterAll(() => {
   mongoose.connection.close()
 })
