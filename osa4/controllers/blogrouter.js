@@ -1,14 +1,22 @@
 const blogRouter = require('express').Router()
 const Blog = require('C:/Users/Santeri/fullstack/fullstackmooc/osa4/models/blog.js')
 const logger = require('C:/Users/Santeri/fullstack/fullstackmooc/osa4/utils/logger.js')
+const User = require('C:/Users/Santeri/fullstack/fullstackmooc/osa4/models/user.js')
 
 blogRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user')
     response.json(blogs.map(blog => blog.toJSON()))
 })
 blogRouter.post('/', async (request, response) => {
   logger.info(request.body)
-  const blog = new Blog(request.body)
+  const user = await User.find().sort({ _id: -1 }).limit(1)
+  const blog = new Blog({
+    title : request.body.title,
+    author : request.body.author,
+    likes : request.body.likes,
+    url : request.body.url,
+    user : user[0]
+  })
   try {
     const savedBlog = await blog.save()
     response.json(savedBlog.toJSON())
