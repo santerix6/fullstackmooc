@@ -47,8 +47,18 @@ test('post request rises the blogs size by one and right blog is added to the db
     url : 'www.lolesports.com',
     likes : 1488
   }
+  const login_params = {
+    username : "santerix6",
+    password : "mursu123"
+  }
+  const login = await api
+    .post('/api/login')
+    .send(login_params)
+    .expect(200)
+
   const res = await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${login.body.token}`)
     .send(newBlog)
     .expect(200)
   const res1 = await api.get('/api/blogs')
@@ -62,8 +72,17 @@ test('if newBlog has no likes its value is 0', async() => {
     author : 'santeri',
     url : 'www.lolesports.com'
   }
+  const login_params = {
+    username : "santerix6",
+    password : "mursu123"
+  }
+  const login = await api
+    .post('/api/login')
+    .send(login_params)
+    .expect(200)
   const res = await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${login.body.token}`)
     .send(newBlog)
     .expect(200)
   const res1 = await api.get('/api/blogs')
@@ -74,8 +93,17 @@ test('if newblog doesnt include title or url should return 400', async () => {
     author : 'santeri',
     likes : 1488
   }
+  const login_params = {
+    username : "santerix6",
+    password : "mursu123"
+  }
+  const login = await api
+    .post('/api/login')
+    .send(login_params)
+    .expect(200)
   const res = await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${login.body.token}`)
     .send(newBlog)
     .expect(400)
 })
@@ -86,13 +114,24 @@ test('testing delete with good value', async () => {
     url : 'www.lolesports.com',
     likes : 1488
   }
+  const login_params = {
+    username : "santerix6",
+    password : "mursu123"
+  }
+  const login = await api
+    .post('/api/login')
+    .send(login_params)
+    .expect(200)
   const res = await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${login.body.token}`)
     .send(newBlog)
   const res1 = await api.get('/api/blogs')
   const id = res1.body[res1.body.length-1].id
-  const res2 = await api.delete(`/api/blogs/${id}`)
-    expect(204)
+  const res2 = await api
+    .delete(`/api/blogs/${id}`)
+    .set('Authorization', `bearer ${login.body.token}`)
+    .expect(204)
   const res3 = await api.get('/api/blogs')
     expect(res3.body.length).toBe(initialNotes.length)
 })
@@ -110,6 +149,18 @@ test('testind update with good values', async() => {
     .put(`/api/blogs/${id}`)
     .send(newBlog)
     .expect(200)
+})
+test('test that cant add new blog without authorization', async () => {
+  const newBlog = {
+    title : 'maailman komein mies',
+    author : 'santeri',
+    url : 'www.lolesports.com',
+    likes : 1488
+  }
+  const res = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401)
 })
 afterAll(() => {
   mongoose.connection.close()

@@ -8,15 +8,15 @@ const initialUsers = [
   {
     username : "santerix6",
     name : "Santeri Nuotiomaa",
-    password : "mursu123",
+    password : "mursu123"
   }
 ]
 
 beforeEach(async () => {
   await User.deleteMany({})
-
-  let userObject = new User(initialUsers[0])
-  await userObject.save()
+  const post = await api
+    .post('/api/users')
+    .send(initialUsers[0])
 
 })
 test('adding proper new user works', async () => {

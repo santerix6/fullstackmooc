@@ -59,11 +59,11 @@ blogRouter.delete('/:id', async (req, res) => {
       await Blog.findByIdAndDelete(req.params.id)
       res.status(204).end()
     } else {
-      res.status(400).json({error : 'unauthorized delete attempt'})
+      res.status(401).json({error : 'unauthorized delete attempt'})
     }
   } catch(error){
     logger.error(error)
-    res.status(400).json({error : 'invalid token'})
+    res.status(401).json({error : 'invalid token'})
   }
 })
 blogRouter.put('/:id', async (req, res) =>{
