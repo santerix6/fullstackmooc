@@ -20,7 +20,6 @@ blogRouter.post('/', async (request, response) => {
   logger.info(request.body)
 
   try {
-    logger.info("kakkaåpää", request.token)
     const decodedToken = await jwt.verify(request.token, process.env.SECRET)
     if( !request.token || !decodedToken.id){
       return response.status(401).json({error : 'token missing or invalid'})
@@ -50,11 +49,21 @@ blogRouter.post('/', async (request, response) => {
 })
 blogRouter.delete('/:id', async (req, res) => {
   try {
-    await Blog.findByIdAndRemove(req.params.id)
-    res.status(204).end()
+    const decodedToken = await jwt.verify(req.token, process.env.SECRET)
+    if( !req.token || !decodedToken.id){
+      return res.status(401).json({error : 'token missing or invalid'})
+    }
+    const user = await User.findById(decodedToken.id)
+    const blog = await Blog.findById(req.params.id)
+    if (blog.user.toString() === user._id.toString()){
+      await Blog.findByIdAndDelete(req.params.id)
+      res.status(204).end()
+    } else {
+      res.status(400).json({error : 'unauthorized delete attempt'})
+    }
   } catch(error){
     logger.error(error)
-    res.status(400).end()
+    res.status(400).json({error : 'invalid token'})
   }
 })
 blogRouter.put('/:id', async (req, res) =>{
