@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Notification from './components/Notification'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -12,6 +13,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [messagetype, setMessageType] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -29,6 +31,12 @@ const App = () => {
   const handleClick = (event) => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
+    setErrorMessage(`succesfull logout`)
+    setMessageType('good')
+    setTimeout(() => {
+      setErrorMessage(null)
+      setMessageType(null)
+    }, 5000)
   }
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -43,10 +51,18 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (error) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage(`succesfull login as ${username}`  )
+      setMessageType('good')
       setTimeout(() => {
         setErrorMessage(null)
+        setMessageType(null)
+      }, 5000)
+    } catch (error) {
+      setErrorMessage('wrong username of password')
+      setMessageType('bad')
+      setTimeout(() => {
+        setErrorMessage(null)
+        setMessageType(null)
       }, 5000)
     }
   }
@@ -63,20 +79,30 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setErrorMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+      setMessageType('good')
+      setTimeout(() => {
+        setErrorMessage(null)
+        setMessageType(null)
+      }, 5000)
       try{
         const blogs = await blogService.getAll()
         console.log(blogs)
         setBlogs(blogs)
       } catch{
           setErrorMessage('couldnt get all blogs')
+          setMessageType('bad')
           setTimeout(() => {
             setErrorMessage(null)
+            setMessageType(null)
           }, 5000)
       }
     } catch {
       setErrorMessage('failed to add new blog')
+      setMessageType('bad')
       setTimeout(() => {
         setErrorMessage(null)
+        setMessageType(null)
       }, 5000)
     }
   }
@@ -127,8 +153,9 @@ const App = () => {
     </div>
   )
   return (
+
     <div>
-    <p>{errorMessage}</p>
+    <Notification noti={errorMessage} type={messagetype}/>
     {user === null && loginForm()}
     {user !== null && blogsForm()}
     </div>
