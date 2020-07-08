@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Notification from './components/Notification'
 import Blog from './components/Blog'
+import Blogform from './components/BlogForm'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -15,6 +17,7 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [messagetype, setMessageType] = useState(null)
 
+  const blogFormRef = useRef()
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -76,6 +79,7 @@ const App = () => {
     try {
       const new_blog = await blogService.create(newBlog)
       console.log(new_blog)
+      blogFormRef.current.toggleVisibilty()
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -110,6 +114,18 @@ const App = () => {
     console.log(event.target.value)
     setUsername(event.target.value)
   }
+  const handleAuthor = (event) => {
+    console.log(event.target.value)
+    setAuthor(event.target.value)
+  }
+  const handleTitle = (event) => {
+    console.log(event.target.value)
+    setTitle(event.target.value)
+  }
+  const handleUrl = (event) => {
+    console.log(event.target.value)
+    setUrl(event.target.value)
+  }
   const loginForm = () => (
 
       <form onSubmit={handleLogin}>
@@ -124,40 +140,41 @@ const App = () => {
       <button type='submit'>login </button>
        </form>
   )
-  const blogsForm = () => (
-    <div>
-    <div><p>Logged in as {user.name}</p><button type='button'
-    onClick={handleClick}>
-    Logout</button>
-    <h2>Create new blog</h2>
-    <form onSubmit={handleCreate}>
+  const blogsForm = () => {
+    return (
       <div>
-        title<input type='text' value={title} name='Title'
-        onChange={({target}) => setTitle(target.value)}/>
-      </div>
-      <div>
-        author<input type='text' value={author} name='Author'
-        onChange={({target}) => setAuthor(target.value)}/>
-      </div>
-      <div>
-        url<input type='text' value={url} name='Url'
-        onChange={({target}) => setUrl(target.value)}/>
-      </div>
-      <button type='submit'>submit </button>
-    </form>
-    <h2>blogs</h2>
-    </div>
-    {blogs.map(blog =>
-      <Blog key={blog.id} blog={blog} />
-    )}
-    </div>
-  )
-  return (
+        <div>
+          {user.name} loggeed in
+          <button type='button'
+          onClick={handleClick}>
+          Logout</button>
+        </div>
+      <Togglable ref={blogFormRef}>
+      <Blogform
+        handleCreate={handleCreate}
+        title={title}
+        author={author}
+        url={url}
+        setTitle={handleTitle}
+        setAuthor={handleAuthor}
+        setUrl={handleUrl}
+        />
+      </Togglable>
 
+      <div>
+        <h2>blogs</h2>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}</div>
+    </div>
+    )
+  }
+  return (
     <div>
     <Notification noti={errorMessage} type={messagetype}/>
+
     {user === null && loginForm()}
-    {user !== null && blogsForm()}
+    {user !== null &&  blogsForm()}
     </div>
   )
 }
