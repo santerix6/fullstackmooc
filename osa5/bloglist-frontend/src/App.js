@@ -118,7 +118,9 @@ const App = () => {
             blogFormRef={blogFormRef}
             blogService={blogService}
             setErrorMessage={setErrorMessage}
-            setMessageType={setMessageType} />
+            setMessageType={setMessageType}
+            user={user}
+            setBlogs={setBlogs} />
         )}</div>
     </div>
     )
