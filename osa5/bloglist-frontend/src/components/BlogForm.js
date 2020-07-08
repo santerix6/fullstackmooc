@@ -36,18 +36,7 @@ const Blogform = (props) => {
         props.setErrorMessage(null)
         props.setMessageType(null)
       }, 5000)
-      try{
-        const blogs = await props.blogService.getAll()
-        console.log(blogs)
-        props.setBlogs(blogs)
-      } catch{
-          props.setErrorMessage('couldnt get all blogs')
-          props.setMessageType('bad')
-          setTimeout(() => {
-            props.setErrorMessage(null)
-            props.setMessageType(null)
-          }, 5000)
-      }
+
     } catch {
       props.setErrorMessage('failed to add new blog')
       props.setMessageType('bad')
@@ -55,6 +44,17 @@ const Blogform = (props) => {
         props.setErrorMessage(null)
         props.setMessageType(null)
       }, 5000)
+    }try {
+      const blogs = await props.blogService.getAll()
+      console.log(blogs)
+      props.setBlogs(blogs)
+    } catch {
+        props.setErrorMessage('couldnt get all blogs')
+        props.setMessageType('bad')
+        setTimeout(() => {
+          props.setErrorMessage(null)
+          props.setMessageType(null)
+        }, 5000)
     }
   }
   return(

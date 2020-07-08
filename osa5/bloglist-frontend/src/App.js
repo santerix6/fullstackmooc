@@ -29,13 +29,13 @@ const App = () => {
     }
   }, [])
   const sortBlogs = () => {
-    blogs.sort((a,b)=>b.likes-a.likes)
+    blogs.sort((a,b) => b.likes-a.likes)
 
   }
-  const handleClick = (event) => {
+  const handleClick = () => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
-    setErrorMessage(`succesfull logout`)
+    setErrorMessage('succesfull logout')
     setMessageType('good')
     setTimeout(() => {
       setErrorMessage(null)
@@ -44,9 +44,9 @@ const App = () => {
   }
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging as ', username, password);
+    console.log('logging as ', username, password)
     try {
-      const user = await loginService.login({username, password})
+      const user = await loginService.login({ username, password })
       console.log(user.token)
       window.localStorage.setItem(
         'loggedBlogUser', JSON.stringify(user)
@@ -78,17 +78,17 @@ const App = () => {
 
   const loginForm = () => (
 
-      <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin}>
       <div>
         username <input type='text' value={username} name='Username'
-        onChange={handleUsername}/>
+          onChange={handleUsername}/>
       </div>
       <div>
         password <input type='password' value={password} name='Password'
-        onChange={({target}) => setPassword(target.value)}/>
+          onChange={({ target }) => setPassword(target.value)}/>
       </div>
       <button type='submit'>login </button>
-       </form>
+    </form>
   )
   const blogsForm = () => {
     sortBlogs()
@@ -97,40 +97,40 @@ const App = () => {
         <div>
           {user.name} loggeed in
           <button type='button'
-          onClick={handleClick}>
+            onClick={handleClick}>
           Logout</button>
         </div>
-      <Togglable nimi='add new blog' ref={blogFormRef}>
-        <Blogform
-          setErrorMessage={setErrorMessage}
-          setMessageType={setMessageType}
-          blogService={blogService}
-          setBlogs={setBlogs}
-          blogFormRef={blogFormRef}
-          />
-      </Togglable>
-
-      <div>
-        <h2>blogs</h2>
-
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog}
-            blogFormRef={blogFormRef}
-            blogService={blogService}
+        <Togglable nimi='add new blog' ref={blogFormRef}>
+          <Blogform
             setErrorMessage={setErrorMessage}
             setMessageType={setMessageType}
-            user={user}
-            setBlogs={setBlogs} />
-        )}</div>
-    </div>
+            blogService={blogService}
+            setBlogs={setBlogs}
+            blogFormRef={blogFormRef}
+          />
+        </Togglable>
+
+        <div>
+          <h2>blogs</h2>
+
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog}
+              blogFormRef={blogFormRef}
+              blogService={blogService}
+              setErrorMessage={setErrorMessage}
+              setMessageType={setMessageType}
+              user={user}
+              setBlogs={setBlogs} />
+          )}</div>
+      </div>
     )
   }
   return (
     <div>
-    <Notification noti={errorMessage} type={messagetype}/>
+      <Notification noti={errorMessage} type={messagetype}/>
 
-    {user === null && loginForm()}
-    {user !== null &&  blogsForm()}
+      {user === null && loginForm()}
+      {user !== null &&  blogsForm()}
     </div>
   )
 }

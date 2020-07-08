@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 
 const Blog = ( props ) => {
+
   const [row, setRow] = useState(false)
 
   const handleClick = (event) => {
@@ -26,7 +27,7 @@ const Blog = ( props ) => {
         props.setMessageType(null)
       }, 5000)
 
-    } catch {
+    } catch{
       props.setErrorMessage(`failed to update ${props.blog.name} likes`)
       props.setMessageType('bad')
       setTimeout(() => {
@@ -38,34 +39,34 @@ const Blog = ( props ) => {
   const handleRemove = async(event) => {
     console.log(props.blog.id)
     if(window.confirm(`Remove blog ${props.blog.title} by ${props.blog.author}`)){
-      try{
+      try {
       const deleted = await props.blogService.remove(props.blog.id)
       console.log(deleted);
-      props.setErrorMessage(`succesfully deleted ${props.blog.title} likes`)
+      props.setErrorMessage(`succesfully deleted ${props.blog.title} `)
       props.setMessageType('good')
       setTimeout(() => {
         props.setErrorMessage(null)
         props.setMessageType(null)
       }, 5000)
-      try{
-        const blogs = await props.blogService.getAll()
-        console.log(blogs)
-        props.setBlogs(blogs)
-      } catch{
-          props.setErrorMessage('couldnt get all blogs')
-          props.setMessageType('bad')
-          setTimeout(() => {
-            props.setErrorMessage(null)
-            props.setMessageType(null)
-          }, 5000)
-      }
     } catch{
-      props.setErrorMessage(`failed to delete ${props.blog.name} likes`)
+      props.setErrorMessage(`failed to delete ${props.blog.name} `)
       props.setMessageType('bad')
       setTimeout(() => {
         props.setErrorMessage(null)
         props.setMessageType(null)
       }, 5000)
+    }
+    try {
+      const blogs = await props.blogService.getAll()
+      console.log(blogs)
+      props.setBlogs(blogs)
+    } catch {
+        props.setErrorMessage('couldnt get all blogs')
+        props.setMessageType('bad')
+        setTimeout(() => {
+          props.setErrorMessage(null)
+          props.setMessageType(null)
+        }, 5000)
     }
   }
   }

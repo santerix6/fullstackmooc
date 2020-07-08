@@ -12,20 +12,20 @@ const getAll = () => {
 
 const create = async (newObject) => {
   const config  = {
-    headers : {Authorization : token},
+    headers : { Authorization : token },
   }
   const res = await axios.post(baseUrl, newObject, config)
   return res.data
 }
 
-const update = async (id, updatedObject) =>{
+const update = async (id, updatedObject) => {
   const res = await axios.put(`${baseUrl}/${id}`, updatedObject)
   return res.data
 }
 
 const remove = async(id) => {
   const config  = {
-    headers : {Authorization : token},
+    headers : { Authorization : token },
   }
   const res = await axios.delete(`${baseUrl}/${id}`, config)
   return res.data
