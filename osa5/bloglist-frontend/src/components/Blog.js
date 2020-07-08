@@ -19,7 +19,7 @@ const Blog = ( props ) => {
     try{
       const updated = await props.blogService.update(props.blog.id, newBlogi)
       console.log(updated)
-      props.setErrorMessage(`succesfully updated ${props.blog.name} likes`)
+      props.setErrorMessage(`succesfully updated ${props.blog.title} likes`)
       props.setMessageType('good')
       setTimeout(() => {
         props.setErrorMessage(null)

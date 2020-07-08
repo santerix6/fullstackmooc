@@ -28,6 +28,10 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+  const sortBlogs = () => {
+    blogs.sort((a,b)=>b.likes-a.likes)
+
+  }
   const handleClick = (event) => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
@@ -87,6 +91,7 @@ const App = () => {
        </form>
   )
   const blogsForm = () => {
+    sortBlogs()
     return (
       <div>
         <div>
@@ -107,6 +112,7 @@ const App = () => {
 
       <div>
         <h2>blogs</h2>
+
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog}
             blogFormRef={blogFormRef}
