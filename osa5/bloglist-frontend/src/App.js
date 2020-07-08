@@ -12,9 +12,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [messagetype, setMessageType] = useState(null)
 
   const blogFormRef = useRef()
@@ -69,63 +66,12 @@ const App = () => {
       }, 5000)
     }
   }
-  const handleCreate = async(event) => {
-    event.preventDefault()
-    let newBlog = {
-      title: title,
-      author: author,
-      url: url,
-    }
-    try {
-      const new_blog = await blogService.create(newBlog)
-      console.log(new_blog)
-      blogFormRef.current.toggleVisibilty()
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setErrorMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
-      setMessageType('good')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setMessageType(null)
-      }, 5000)
-      try{
-        const blogs = await blogService.getAll()
-        console.log(blogs)
-        setBlogs(blogs)
-      } catch{
-          setErrorMessage('couldnt get all blogs')
-          setMessageType('bad')
-          setTimeout(() => {
-            setErrorMessage(null)
-            setMessageType(null)
-          }, 5000)
-      }
-    } catch {
-      setErrorMessage('failed to add new blog')
-      setMessageType('bad')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setMessageType(null)
-      }, 5000)
-    }
-  }
+
   const handleUsername = (event) => {
     console.log(event.target.value)
     setUsername(event.target.value)
   }
-  const handleAuthor = (event) => {
-    console.log(event.target.value)
-    setAuthor(event.target.value)
-  }
-  const handleTitle = (event) => {
-    console.log(event.target.value)
-    setTitle(event.target.value)
-  }
-  const handleUrl = (event) => {
-    console.log(event.target.value)
-    setUrl(event.target.value)
-  }
+
   const loginForm = () => (
 
       <form onSubmit={handleLogin}>
@@ -150,15 +96,13 @@ const App = () => {
           Logout</button>
         </div>
       <Togglable ref={blogFormRef}>
-      <Blogform
-        handleCreate={handleCreate}
-        title={title}
-        author={author}
-        url={url}
-        setTitle={handleTitle}
-        setAuthor={handleAuthor}
-        setUrl={handleUrl}
-        />
+        <Blogform
+          setErrorMessage={setErrorMessage}
+          setMessageType={setMessageType}
+          blogService={blogService}
+          setBlogs={setBlogs}
+          blogFormRef={blogFormRef}
+          />
       </Togglable>
 
       <div>
