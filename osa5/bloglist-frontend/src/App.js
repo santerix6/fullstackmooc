@@ -95,7 +95,7 @@ const App = () => {
           onClick={handleClick}>
           Logout</button>
         </div>
-      <Togglable ref={blogFormRef}>
+      <Togglable nimi='add new blog' ref={blogFormRef}>
         <Blogform
           setErrorMessage={setErrorMessage}
           setMessageType={setMessageType}
@@ -108,7 +108,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} blogFormRef={blogFormRef} />
         )}</div>
     </div>
     )
