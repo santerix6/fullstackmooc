@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 const Blogform = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -49,37 +49,37 @@ const Blogform = (props) => {
       console.log(blogs)
       props.setBlogs(blogs)
     } catch {
-        props.setErrorMessage('couldnt get all blogs')
-        props.setMessageType('bad')
-        setTimeout(() => {
-          props.setErrorMessage(null)
-          props.setMessageType(null)
-        }, 5000)
+      props.setErrorMessage('couldnt get all blogs')
+      props.setMessageType('bad')
+      setTimeout(() => {
+        props.setErrorMessage(null)
+        props.setMessageType(null)
+      }, 5000)
     }
   }
   return(
-  <div>
     <div>
-      <h2>Create new blog</h2>
+      <div>
+        <h2>Create new blog</h2>
         <form onSubmit={handleCreate}>
           <div>
             title<input type='text' value={title} name='Title'
-            onChange={handleTitle}/>
+              onChange={handleTitle}/>
           </div>
           <div>
             author<input type='text' value={author} name='Author'
-            onChange={handleAuthor}/>
+              onChange={handleAuthor}/>
           </div>
           <div>
             url<input type='text' value={url} name='Url'
-            onChange={handleUrl}/>
+              onChange={handleUrl}/>
           </div>
           <button type='submit'>submit </button>
-      </form>
+        </form>
 
-    </div>
+      </div>
 
-  </div>)
+    </div>)
 }
 
 

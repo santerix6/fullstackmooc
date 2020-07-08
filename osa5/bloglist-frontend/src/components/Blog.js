@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
 const Blog = ( props ) => {
 
   const [row, setRow] = useState(false)
 
-  const handleClick = (event) => {
+  const handleClick = () => {
     setRow(!row)
   }
-  const handleLike = async(event) => {
+  const handleLike = async() => {
     props.blog.likes++
     let newBlogi = {
       user: props.blog.user.id,
@@ -26,8 +26,8 @@ const Blog = ( props ) => {
         props.setErrorMessage(null)
         props.setMessageType(null)
       }, 5000)
-
-    } catch{
+    }
+    catch {
       props.setErrorMessage(`failed to update ${props.blog.name} likes`)
       props.setMessageType('bad')
       setTimeout(() => {
@@ -36,39 +36,39 @@ const Blog = ( props ) => {
       }, 5000)
     }
   }
-  const handleRemove = async(event) => {
+  const handleRemove = async() => {
     console.log(props.blog.id)
     if(window.confirm(`Remove blog ${props.blog.title} by ${props.blog.author}`)){
       try {
-      const deleted = await props.blogService.remove(props.blog.id)
-      console.log(deleted);
-      props.setErrorMessage(`succesfully deleted ${props.blog.title} `)
-      props.setMessageType('good')
-      setTimeout(() => {
-        props.setErrorMessage(null)
-        props.setMessageType(null)
-      }, 5000)
-    } catch{
-      props.setErrorMessage(`failed to delete ${props.blog.name} `)
-      props.setMessageType('bad')
-      setTimeout(() => {
-        props.setErrorMessage(null)
-        props.setMessageType(null)
-      }, 5000)
-    }
-    try {
-      const blogs = await props.blogService.getAll()
-      console.log(blogs)
-      props.setBlogs(blogs)
-    } catch {
+        const deleted = await props.blogService.remove(props.blog.id)
+        console.log(deleted)
+        props.setErrorMessage(`succesfully deleted ${props.blog.title} `)
+        props.setMessageType('good')
+        setTimeout(() => {
+          props.setErrorMessage(null)
+          props.setMessageType(null)
+        }, 5000)
+      } catch{
+        props.setErrorMessage(`failed to delete ${props.blog.name} `)
+        props.setMessageType('bad')
+        setTimeout(() => {
+          props.setErrorMessage(null)
+          props.setMessageType(null)
+        }, 5000)
+      }
+      try {
+        const blogs = await props.blogService.getAll()
+        console.log(blogs)
+        props.setBlogs(blogs)
+      } catch {
         props.setErrorMessage('couldnt get all blogs')
         props.setMessageType('bad')
         setTimeout(() => {
           props.setErrorMessage(null)
           props.setMessageType(null)
         }, 5000)
+      }
     }
-  }
   }
   const blogStyle = {
     paddingTop: 10,
@@ -90,11 +90,11 @@ const Blog = ( props ) => {
     console.log(props.blog.user.username, props.user.username)
     return (
       <div style={blogStyle}>
-      <p>{props.blog.title} <button type='button' onClick={handleClick}>hide</button></p>
-      <p>{props.blog.url}</p>
-      <p>{props.blog.likes} <button type='button' onClick={handleLike}>like</button></p>
-      <p>{props.blog.author}</p>
-      {props.blog.user.username ===props.user.username && <button type='button' onClick={handleRemove} >remove</button>}
+        <p>{props.blog.title} <button type='button' onClick={handleClick}>hide</button></p>
+        <p>{props.blog.url}</p>
+        <p>{props.blog.likes} <button type='button' onClick={handleLike}>like</button></p>
+        <p>{props.blog.author}</p>
+        {props.blog.user.username ===props.user.username && <button type='button' onClick={handleRemove} >remove</button>}
       </div>
     )
   }
