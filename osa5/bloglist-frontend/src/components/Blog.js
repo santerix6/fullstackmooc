@@ -81,13 +81,13 @@ const Blog = ( props ) => {
   if(row ===false){
     return (
       <div style={blogStyle} className='blog'>
-        {props.blog.title} {props.blog.author} <button type='button' onClick={handleClick}>
+        {props.blog.title} {props.blog.author} <button type='button' onClick={handleClick} class='butt'>
         view</button>
       </div>
     )
   }
   if(row ===true){
-    console.log(props.blog.user.username, props.user.username)
+    //console.log(props.blog.user.username, props.user.username)
     return (
       <div style={blogStyle}>
         <p>{props.blog.title} <button type='button' onClick={handleClick}>hide</button></p>
