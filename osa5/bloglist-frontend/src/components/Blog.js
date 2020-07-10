@@ -81,7 +81,7 @@ const Blog = ( props ) => {
   if(row ===false){
     return (
       <div style={blogStyle} className='blog'>
-        {props.blog.title} {props.blog.author} <button type='button' onClick={handleClick} class='butt'>
+        {props.blog.title} {props.blog.author} <button type='button' onClick={handleClick} className='butt'>
         view</button>
       </div>
     )

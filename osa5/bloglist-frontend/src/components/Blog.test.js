@@ -55,3 +55,25 @@ test('after click show all details', () => {
     4
   )
 })
+test('liking something twice makes sure mochfunc is called twice', () => {
+
+  const blog = {
+    title: 'testi title',
+    author: 'testi author',
+    url: 'testi url',
+    likes: 4,
+    user: user
+  }
+  const mockerror = jest.fn()
+  const mocktype = jest.fn()
+  const component = render(
+    <Blog blog={blog} user={user} setErrorMessage={mockerror} setMessageType={mocktype} />
+  )
+  const button = component.getByText('view')
+  fireEvent.click(button)
+  const like = component.getByText('like')
+  fireEvent.click(like)
+  fireEvent.click(like)
+  expect(mockerror.mock.calls.length).toBe(2);
+
+})
