@@ -80,7 +80,7 @@ const Blog = ( props ) => {
   }
   if(row ===false){
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='blog'>
         {props.blog.title} {props.blog.author} <button type='button' onClick={handleClick}>
         view</button>
       </div>
