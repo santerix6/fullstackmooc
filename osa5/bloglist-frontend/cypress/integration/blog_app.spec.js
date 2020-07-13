@@ -41,7 +41,6 @@ describe('Note', function() {
       }).then(response => {
         localStorage.setItem('loggedBlogUser', JSON.stringify(response.body))
         cy.visit('http://localhost:3000')
-
     })
     })
     it('Blog can be created', function() {
@@ -51,6 +50,17 @@ describe('Note', function() {
       cy.get('#url').type('testi url')
       cy.get('#save').click()
       cy.contains('testi blogi')
+    })
+    it('Blog can be liked', function() {
+      cy.contains('add new blog').click()
+      cy.get('#title').type('testi blogi1')
+      cy.get('#author').type('testi author1')
+      cy.get('#url').type('testi url1')
+      cy.get('#save').click()
+      cy.contains('testi blogi')
+      cy.contains('view').click()
+      cy.get('#like').click()
+      cy.get('#likes').contains('1')
     })
   })
 })
