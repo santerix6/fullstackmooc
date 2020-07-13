@@ -94,7 +94,7 @@ const Blog = ( props ) => {
         <p>{props.blog.url}</p>
         <p id='likes'>{props.blog.likes} <button id='like' type='button' onClick={handleLike}>like</button></p>
         <p>{props.blog.author}</p>
-        {props.blog.user.username ===props.user.username && <button type='button' onClick={handleRemove} >remove</button>}
+        {props.blog.user.username ===props.user.username && <button id='remove' type='button' onClick={handleRemove} >remove</button>}
       </div>
     )
   }

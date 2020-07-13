@@ -111,7 +111,7 @@ const App = () => {
           />
         </Togglable>
 
-        <div>
+        <div className='blogs'>
           <h2>blogs</h2>
 
           {blogs.map(blog =>
