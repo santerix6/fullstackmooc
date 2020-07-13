@@ -89,7 +89,7 @@ const Blog = ( props ) => {
   if(row ===true){
     //console.log(props.blog.user.username, props.user.username)
     return (
-      <div style={blogStyle}>
+      <div className='blog' style={blogStyle}>
         <p>{props.blog.title} <button type='button' onClick={handleClick}>hide</button></p>
         <p>{props.blog.url}</p>
         <p id='likes'>{props.blog.likes} <button id='like' type='button' onClick={handleLike}>like</button></p>
