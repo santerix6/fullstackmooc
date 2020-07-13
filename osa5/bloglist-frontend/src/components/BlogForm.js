@@ -24,7 +24,7 @@ const Blogform = (props) => {
       url: url,
     }
     try {
-      const new_blog = await props.blogService.create(newBlog)
+      const new_blog = await props.create(newBlog)
       console.log(new_blog)
       props.blogFormRef.current.toggleVisibilty()
       setTitle('')
@@ -45,7 +45,7 @@ const Blogform = (props) => {
         props.setMessageType(null)
       }, 5000)
     }try {
-      const blogs = await props.blogService.getAll()
+      const blogs = await props.getAll()
       console.log(blogs)
       props.setBlogs(blogs)
     } catch {
@@ -59,19 +59,19 @@ const Blogform = (props) => {
   }
   return(
     <div>
-      <div>
+      <div className='formDiv'>
         <h2>Create new blog</h2>
         <form onSubmit={handleCreate}>
           <div>
-            title<input type='text' value={title} name='Title'
+            title<input type='text' id='title' value={title} name='Title'
               onChange={handleTitle}/>
           </div>
           <div>
-            author<input type='text' value={author} name='Author'
+            author<input type='text' id='author' value={author} name='Author'
               onChange={handleAuthor}/>
           </div>
           <div>
-            url<input type='text' value={url} name='Url'
+            url<input type='text' id='url' value={url} name='Url'
               onChange={handleUrl}/>
           </div>
           <button type='submit'>submit </button>

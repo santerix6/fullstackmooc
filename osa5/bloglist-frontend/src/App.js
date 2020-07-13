@@ -104,7 +104,8 @@ const App = () => {
           <Blogform
             setErrorMessage={setErrorMessage}
             setMessageType={setMessageType}
-            blogService={blogService}
+            create={blogService.create}
+            getAll={blogService.getAll}
             setBlogs={setBlogs}
             blogFormRef={blogFormRef}
           />
