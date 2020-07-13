@@ -74,7 +74,7 @@ const Blogform = (props) => {
             url<input type='text' id='url' value={url} name='Url'
               onChange={handleUrl}/>
           </div>
-          <button type='submit'>submit </button>
+          <button id='save' type='submit'>submit </button>
         </form>
 
       </div>

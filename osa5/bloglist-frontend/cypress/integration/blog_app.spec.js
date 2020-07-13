@@ -34,4 +34,23 @@ describe('Note', function() {
       cy.contains('wrong username of password')
     })
   })
+  describe('When logged in ', function() {
+    beforeEach(function() {
+      cy.request('POST', 'http://localhost:3001/api/login', {
+        username: 'sane96', password: 'salainen'
+      }).then(response => {
+        localStorage.setItem('loggedBlogUser', JSON.stringify(response.body))
+        cy.visit('http://localhost:3000')
+
+    })
+    })
+    it('Blog can be created', function() {
+      cy.contains('add new blog').click()
+      cy.get('#title').type('testi blogi')
+      cy.get('#author').type('testi author')
+      cy.get('#url').type('testi url')
+      cy.get('#save').click()
+      cy.contains('testi blogi')
+    })
+  })
 })
