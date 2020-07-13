@@ -26,7 +26,7 @@ const Notification = (props) => {
     )
   } else{
     return (
-      <div style={notistyleb}>
+      <div style={notistyleb} className='error'>
         <p style={pstyle}>{props.noti}</p>
       </div>
     )

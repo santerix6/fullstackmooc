@@ -80,14 +80,14 @@ const App = () => {
 
     <form onSubmit={handleLogin}>
       <div>
-        username <input type='text' value={username} name='Username'
+        username <input type='text' value={username} name='Username' id='username'
           onChange={handleUsername}/>
       </div>
       <div>
-        password <input type='password' value={password} name='Password'
+        password <input type='password' value={password} name='Password' id='password'
           onChange={({ target }) => setPassword(target.value)}/>
       </div>
-      <button type='submit'>login </button>
+      <button id='login-button' type='submit'>login </button>
     </form>
   )
   const blogsForm = () => {
