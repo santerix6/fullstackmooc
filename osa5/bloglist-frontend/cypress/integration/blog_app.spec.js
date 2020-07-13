@@ -91,7 +91,7 @@ describe('Note', function() {
       cy.contains('view').click()
       cy.get('.blogs').should('not.contain', 'remove')
     })
-    it.only('Blogs are sorted by likes', function() {
+    it('Blogs are sorted by likes', function() {
       cy.contains('add new blog').click()
       cy.get('#title').type('testi blogi1')
       cy.get('#author').type('testi author1')
