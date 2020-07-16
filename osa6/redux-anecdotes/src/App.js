@@ -12,11 +12,22 @@ const App = () => {
       data: {id}
     })
   }
+  const create = (event) => {
+    event.preventDefault()
+    const content = event.target.anecdote.value
+    event.target.anecdote.value = ''
+    dispatch({
+      type: 'create',
+      data: {content}
+    })
+
+  }
+  const byVotes = (v1,v2)=> v2.votes - v1.votes
 
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {anecdotes.sort(byVotes).map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
@@ -28,9 +39,9 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={create}>
+        <div><input name='anecdote' /></div>
+        <button >create</button>
       </form>
     </div>
   )

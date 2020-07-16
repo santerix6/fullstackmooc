@@ -36,7 +36,13 @@ const reducer = (state = initialState, action) => {
     return state.map(ane =>
       ane.id !== action.data.id ? ane : changedAnecdoe
     )
-  }else {
+  }
+  if(action.type ==='create'){
+    const uus = asObject(action.data.content)
+    console.log(uus);
+    return state.concat(uus)
+  }
+  else {
     return state
   }
 
