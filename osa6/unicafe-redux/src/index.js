@@ -26,7 +26,16 @@ const App = () => {
       type: 'ZERO'
     })
   }
-
+  const getAverage = () => {
+    const pre = store.getState().bad*-1 + store.getState().good*1 + store.getState().ok*0
+    const asd=  pre/(store.getState().bad+store.getState().ok+store.getState().good)
+    console.log(asd);
+    return asd
+  }
+  const getGoodPer= () => {
+    const goodper = store.getState().good / (store.getState().bad+store.getState().ok+store.getState().good)
+    return goodper
+  }
 
   return (
     <div>
@@ -37,6 +46,9 @@ const App = () => {
       <div>good {store.getState().good}</div>
       <div>neutral {store.getState().ok}</div>
       <div>bad {store.getState().bad}</div>
+      <div>total {store.getState().bad+store.getState().ok+store.getState().good}</div>
+      <div>average {getAverage()}</div>
+      <div>percentage of goods {getGoodPer()} %</div>
     </div>
   )
 }
