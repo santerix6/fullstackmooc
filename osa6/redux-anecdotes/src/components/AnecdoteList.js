@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { defaultti} from '../reducers/notificationReducer'
 import {voreFunc} from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
@@ -7,6 +8,12 @@ const AnecdoteList = () => {
 
   const anecdotes = useSelector(state => state.anecdotes)
   const byVotes = (v1,v2)=> v2.votes - v1.votes
+  const like = (id, content) => {
+    dispatch(voreFunc(id,content))
+    setTimeout(() => {
+      dispatch(defaultti())
+    },5000)
+  }
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -17,7 +24,7 @@ const AnecdoteList = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => dispatch(voreFunc(anecdote.id))}>vote</button>
+            <button onClick={() => like(anecdote.id,anecdote.content)}>vote</button>
           </div>
         </div>
       )}

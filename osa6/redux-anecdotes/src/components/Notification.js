@@ -7,6 +7,7 @@ const Notification = () => {
     borderWidth: 1
   }
   const noti = useSelector(state => state.notification)
+  
   return (
     <div style={style}>
       {noti}

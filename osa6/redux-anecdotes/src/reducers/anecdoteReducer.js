@@ -1,3 +1,4 @@
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -16,10 +17,11 @@ export const createAnecdote = (content) => {
     }
 }
 
-export const voreFunc = (id) => {
+export const voreFunc = (id,content) => {
+
   return {
     type: 'vote',
-    data:{id}
+    data:{id,content}
   }
 }
 
