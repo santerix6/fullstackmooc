@@ -5,7 +5,7 @@ import {voreFunc} from '../reducers/anecdoteReducer'
 const AnecdoteList = () => {
   const dispatch = useDispatch()
 
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector(state => state.anecdotes)
   const byVotes = (v1,v2)=> v2.votes - v1.votes
   return (
     <div>
