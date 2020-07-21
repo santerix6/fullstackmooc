@@ -1,23 +1,3 @@
-export const createNotification = (content) => {
-  return {
-    type: 'create_noti',
-    data: {
-      content
-    }
-  }
-}
-export const defaultti = () => {
-  return {
-    type: 'defaultti',
-
-  }
-}
-export const likeNotification = () => {
-  return {
-    type: 'vote'
-
-  }
-}
 
 export const setNotification = (content, time) => {
   return async dispatch => {
@@ -35,7 +15,7 @@ export const setNotification = (content, time) => {
           content
         }
       })
-    },time*1000) 
+    },time*1000)
   }
 }
 const notificationReducer = (state = 'Message for all notis', action) => {
