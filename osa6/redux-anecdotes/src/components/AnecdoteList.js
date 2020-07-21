@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { defaultti} from '../reducers/notificationReducer'
 import {voreFunc} from '../reducers/anecdoteReducer'
+import {setNotification} from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
   const dispatch = useDispatch()
@@ -14,9 +14,8 @@ const AnecdoteList = () => {
   const byVotes = (v1,v2)=> v2.votes - v1.votes
   const like = (content) => {
     dispatch(voreFunc(content))
-    setTimeout(() => {
-      dispatch(defaultti())
-    },5000)
+    dispatch(setNotification(`You voted ${content.content}`, 5))
+
   }
   return (
     <div>

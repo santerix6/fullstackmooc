@@ -18,15 +18,31 @@ export const likeNotification = () => {
 
   }
 }
+
+export const setNotification = (content, time) => {
+  return async dispatch => {
+     dispatch({
+      type: 'noti',
+      data: {
+        content
+      }
+    })
+    setTimeout(() =>{
+      let content = 'notification if needed'
+      dispatch({
+        type:'noti',
+        data: {
+          content
+        }
+      })
+    },time*1000) 
+  }
+}
 const notificationReducer = (state = 'Message for all notis', action) => {
   switch (action.type) {
-    case 'create_noti':
-      let retstring = 'You added '+action.data.content
-      return retstring
-    case 'defaultti':
-      return 'Message for all notis'
-    case 'vote':
-      return 'You voted ' + action.data.content
+    case 'noti':
+      console.log('test', action.data.content);
+      return action.data.content
     default:
       console.log(state)
       return state
