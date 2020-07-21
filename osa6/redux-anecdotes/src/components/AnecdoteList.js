@@ -12,8 +12,8 @@ const AnecdoteList = () => {
     return anecdote.content.toLowerCase().includes(filtter.toLowerCase())
   })
   const byVotes = (v1,v2)=> v2.votes - v1.votes
-  const like = (id, content) => {
-    dispatch(voreFunc(id,content))
+  const like = (content) => {
+    dispatch(voreFunc(content))
     setTimeout(() => {
       dispatch(defaultti())
     },5000)
@@ -28,7 +28,7 @@ const AnecdoteList = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => like(anecdote.id,anecdote.content)}>vote</button>
+            <button onClick={() => like(anecdote)}>vote</button>
           </div>
         </div>
       )}

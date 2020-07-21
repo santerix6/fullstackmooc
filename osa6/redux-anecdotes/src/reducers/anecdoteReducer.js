@@ -12,11 +12,23 @@ export const createAnecdote = (content) => {
     }
 }
 
-export const voreFunc = (id,content) => {
+export const voreFunc = (content) => {
 
-  return {
-    type: 'vote',
-    data:{id,content}
+  return async dispatch => {
+    const updatedObj = {
+      content: content.content,
+      id: content.id,
+      votes: content.votes +1
+    }
+
+    const res = await anecdoteService.update(content.id, updatedObj)
+    console.log(res)
+    dispatch({
+      type: 'vote',
+      data: {
+        res
+      }
+    })
   }
 }
 
@@ -26,18 +38,9 @@ const reducer = (state = [], action) => {
   console.log('state now: ', state)
   console.log('action', action)
   if(action.type === 'vote'){
-    const aneToChange = state.find(n => n.id ===action.data.id)
-    const changedAnecdoe = {
-      content: aneToChange.content,
-      id: aneToChange.id,
-      votes: aneToChange.votes +1
-    }
-    console.log(changedAnecdoe);
-    const new_state = state.map(ane =>
-      ane.id !== action.data.id ? ane : changedAnecdoe)
-    console.log(new_state);
+    console.log();
     return state.map(ane =>
-      ane.id !== action.data.id ? ane : changedAnecdoe
+      ane.id !==action.data.res.id ? ane : action.data.res
     )
   }
   if(action.type ==='create'){
