@@ -1,5 +1,4 @@
 
-
 export const createAnecdote = (content) => {
     return {
       type:'create',
@@ -17,15 +16,7 @@ export const voreFunc = (id,content) => {
   }
 }
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+export const getId = () => (100000 * Math.random()).toFixed(0)
 
 const reducer = (state = [], action) => {
   console.log('state now: ', state)
@@ -46,9 +37,8 @@ const reducer = (state = [], action) => {
     )
   }
   if(action.type ==='create'){
-    const uus = asObject(action.data.content)
-    console.log(uus);
-    return state.concat(uus)
+
+    return state.concat(action.data.content)
   }
   if(action.type === 'init_anecdotes'){
     return action.data

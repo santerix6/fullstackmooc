@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     anecdoteService.getAll()
       .then(anecs => dispatch(initalizeAnecdotes(anecs)))
-  })
+  },[dispatch])
   return (
     <div>
       <Filter />
