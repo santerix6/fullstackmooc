@@ -1,10 +1,14 @@
+import anecdoteService from '../services/anecdotes'
+
 
 export const createAnecdote = (content) => {
-    return {
-      type:'create',
-      data: {
-        content
-      }
+    return async dispatch => {
+      const newNote = await anecdoteService.createNew(content)
+      dispatch({
+        type:'create',
+        data: {
+          newNote
+        }})
     }
 }
 
@@ -38,7 +42,7 @@ const reducer = (state = [], action) => {
   }
   if(action.type ==='create'){
 
-    return state.concat(action.data.content)
+    return state.concat(action.data.newNote)
   }
   if(action.type === 'init_anecdotes'){
     return action.data
@@ -47,10 +51,12 @@ const reducer = (state = [], action) => {
     return state
   }
 }
-export const initalizeAnecdotes = (anecdotes) => {
-  return {
-    type: 'init_anecdotes',
-    data: anecdotes
+export const initalizeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'init_anecdotes',
+      data: anecdotes})
   }
 }
 
