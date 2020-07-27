@@ -1,21 +1,25 @@
+let timeout = 0
 
 export const setNotification = (content, time) => {
+  clearTimeout(timeout)
   return async dispatch => {
+     timeout = setTimeout(() =>{
+       let content = 'notification if needed'
+       dispatch({
+         type:'noti',
+         data: {
+           content
+         }
+       })
+     },time*1000)
      dispatch({
       type: 'noti',
       data: {
-        content
+        content:content,
+        timeout:timeout
       }
     })
-    setTimeout(() =>{
-      let content = 'notification if needed'
-      dispatch({
-        type:'noti',
-        data: {
-          content
-        }
-      })
-    },time*1000)
+
   }
 }
 const notificationReducer = (state = 'Message for all notis', action) => {
