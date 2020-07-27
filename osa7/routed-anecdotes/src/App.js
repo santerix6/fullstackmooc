@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router,
-          Switch, Route,Link,useParams
+          Switch, Route,Link,useParams,useHistory
         } from "react-router-dom"
 const Menu = () => {
   const padding = {
@@ -64,7 +64,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
-
+  const history = useHistory()
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
@@ -73,6 +73,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    history.push('/')
   }
 
   return (
@@ -97,8 +98,23 @@ const CreateNew = (props) => {
   )
 
 }
-
+const Notification = (props) => {
+  if(props.noti === '') {return null}
+  const notistyle = {
+    backgroundColor  : 'silver',
+    border: '2px solid green',
+    fontSize : 20,
+    color: 'green',
+    borderRadius : 5,
+  }
+  return (
+    <div style={notistyle}>
+      <p>{props.noti}</p>
+    </div>
+  )
+}
 const App = () => {
+
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -119,8 +135,15 @@ const App = () => {
   const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
+
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    setTimeout(()=>{
+      setNotification('')
+    },10000)
+
+
   }
 
   const anecdoteById = (id) =>
@@ -141,6 +164,7 @@ const App = () => {
     <Router>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification noti={notification}/>
       <Switch>
         <Route path="/anecdotes/:id">
           <Anecdote anecdotes={anecdotes} anecdoteById={anecdoteById}/>
