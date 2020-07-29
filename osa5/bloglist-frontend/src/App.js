@@ -5,9 +5,12 @@ import Blogform from './components/BlogForm'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import {useSelector, useDispatch} from 'react-redux'
+import {getBlogs} from './reducers/blogsReduxer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const dispatch = useDispatch()
+  const blogs = useSelector(state=>state)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -15,11 +18,11 @@ const App = () => {
   const [messagetype, setMessageType] = useState(null)
 
   const blogFormRef = useRef()
+
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  }, [])
+    dispatch(getBlogs())
+  }, [dispatch])
+  console.log('asdasdsad',blogs);
   useEffect(() => {
     const loggedBlogUserJSON = window.localStorage.getItem('loggedBlogUser')
     if(loggedBlogUserJSON){
@@ -91,7 +94,7 @@ const App = () => {
     </form>
   )
   const blogsForm = () => {
-    sortBlogs()
+    //sortBlogs()
     return (
       <div>
         <div>
@@ -106,7 +109,7 @@ const App = () => {
             setMessageType={setMessageType}
             create={blogService.create}
             getAll={blogService.getAll}
-            setBlogs={setBlogs}
+
             blogFormRef={blogFormRef}
           />
         </Togglable>
@@ -121,7 +124,7 @@ const App = () => {
               setErrorMessage={setErrorMessage}
               setMessageType={setMessageType}
               user={user}
-              setBlogs={setBlogs} />
+               />
           )}</div>
       </div>
     )
