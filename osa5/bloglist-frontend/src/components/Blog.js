@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-
+import {useDispatch} from 'react-redux'
+import {likeBlog, deleteBlog} from '../reducers/blogsReduxer'
+import {setNotification} from '../reducers/notificationReducer'
+import {setStyle} from '../reducers/notificationstyleReducer'
 const Blog = ( props ) => {
-
+  const dispatch = useDispatch()
   const [row, setRow] = useState(false)
-
   const handleClick = () => {
     setRow(!row)
   }
@@ -18,55 +20,26 @@ const Blog = ( props ) => {
     }
     console.log(newBlogi)
     try{
-      const updated = await props.blogService.update(props.blog.id, newBlogi)
-      console.log(updated)
-      props.setErrorMessage(`succesfully updated ${props.blog.title} likes`)
-      props.setMessageType('good')
-      setTimeout(() => {
-        props.setErrorMessage(null)
-        props.setMessageType(null)
-      }, 5000)
+      dispatch(likeBlog(props.blog.id, newBlogi))
+      dispatch(setNotification(`succesfully updated ${newBlogi.title} likes`))
+      dispatch(setStyle('good'))
     }
     catch {
-      props.setErrorMessage(`failed to update ${props.blog.name} likes`)
-      props.setMessageType('bad')
-      setTimeout(() => {
-        props.setErrorMessage(null)
-        props.setMessageType(null)
-      }, 5000)
+      dispatch(setNotification(`failed to updated ${newBlogi.title} likes`))
+      dispatch(setStyle('bad'))
+
     }
   }
   const handleRemove = async() => {
     console.log(props.blog.id)
     if(window.confirm(`Remove blog ${props.blog.title} by ${props.blog.author}`)){
       try {
-        const deleted = await props.blogService.remove(props.blog.id)
-        console.log(deleted)
-        props.setErrorMessage(`succesfully deleted ${props.blog.title} `)
-        props.setMessageType('good')
-        setTimeout(() => {
-          props.setErrorMessage(null)
-          props.setMessageType(null)
-        }, 5000)
+        dispatch(deleteBlog(props.blog.id))
+        dispatch(setNotification(`succesfully deleted ${props.blog.title} `))
+        dispatch(setStyle('good'))
       } catch{
-        props.setErrorMessage(`failed to delete ${props.blog.name} `)
-        props.setMessageType('bad')
-        setTimeout(() => {
-          props.setErrorMessage(null)
-          props.setMessageType(null)
-        }, 5000)
-      }
-      try {
-        const blogs = await props.blogService.getAll()
-        console.log(blogs)
-        props.setBlogs(blogs)
-      } catch {
-        props.setErrorMessage('couldnt get all blogs')
-        props.setMessageType('bad')
-        setTimeout(() => {
-          props.setErrorMessage(null)
-          props.setMessageType(null)
-        }, 5000)
+        dispatch(setNotification(`failed to delete ${props.blog.name} `))
+        dispatch(setStyle('bad'))
       }
     }
   }

@@ -7,15 +7,16 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import {useSelector, useDispatch} from 'react-redux'
 import {getBlogs} from './reducers/blogsReduxer'
-
+import {setNotification} from './reducers/notificationReducer'
+import {setStyle} from './reducers/notificationstyleReducer'
 const App = () => {
   const dispatch = useDispatch()
-  const blogs = useSelector(state=>state)
+  const blogs = useSelector(state=>state.blogs)
+  const notification = useSelector(state=>state.notification)
+  const notistyle = useSelector(state=>state.notistyle)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [messagetype, setMessageType] = useState(null)
 
   const blogFormRef = useRef()
 
@@ -31,19 +32,13 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  const sortBlogs = () => {
-    blogs.sort((a,b) => b.likes-a.likes)
-
-  }
+  const sortBlogs = (a,b) => {return a.likes>b.likes}
   const handleClick = () => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
-    setErrorMessage('succesfull logout')
-    setMessageType('good')
-    setTimeout(() => {
-      setErrorMessage(null)
-      setMessageType(null)
-    }, 5000)
+    dispatch(setNotification('succesfull logout'))
+    dispatch(setStyle('good'))
+
   }
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -58,19 +53,11 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setErrorMessage(`succesfull login as ${username}`  )
-      setMessageType('good')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setMessageType(null)
-      }, 5000)
+      dispatch(setNotification(`succesfull login as ${username}`  ))
+      dispatch(setStyle('good'))
     } catch (error) {
-      setErrorMessage('wrong username of password')
-      setMessageType('bad')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setMessageType(null)
-      }, 5000)
+      dispatch(setNotification('wrong username of password'))
+      dispatch(setStyle('bad'))
     }
   }
 
@@ -105,24 +92,18 @@ const App = () => {
         </div>
         <Togglable nimi='add new blog' ref={blogFormRef}>
           <Blogform
-            setErrorMessage={setErrorMessage}
-            setMessageType={setMessageType}
             create={blogService.create}
             getAll={blogService.getAll}
-
             blogFormRef={blogFormRef}
           />
         </Togglable>
 
         <div className='blogs'>
           <h2>blogs</h2>
-
-          {blogs.map(blog =>
+          {blogs.sort(sortBlogs).map(blog =>
             <Blog key={blog.id} blog={blog}
               blogFormRef={blogFormRef}
               blogService={blogService}
-              setErrorMessage={setErrorMessage}
-              setMessageType={setMessageType}
               user={user}
                />
           )}</div>
@@ -131,7 +112,7 @@ const App = () => {
   }
   return (
     <div>
-      <Notification noti={errorMessage} type={messagetype}/>
+      <Notification noti={notification} type={notistyle}/>
 
       {user === null && loginForm()}
       {user !== null &&  blogsForm()}

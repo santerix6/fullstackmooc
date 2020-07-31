@@ -1,6 +1,6 @@
 import React from 'react'
 const Notification = (props) => {
-  if(props.noti === null) {return null}
+  if(props.noti === '') {return null}
   const notistyle = {
     backgroundColor  : 'silver',
     border: '2px solid green',
