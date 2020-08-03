@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useDispatch} from 'react-redux'
-import {likeBlog, deleteBlog} from '../reducers/blogsReduxer'
+import {likeBlog, deleteBlog, addComment} from '../reducers/blogsReduxer'
 import {setNotification} from '../reducers/notificationReducer'
 import {setStyle} from '../reducers/notificationstyleReducer'
 import { BrowserRouter as Router,
@@ -39,6 +39,24 @@ const Blog = ( props ) => {
 
     }
   }
+
+  const addCommentt = async(event) =>{
+    event.preventDefault()
+    const id = blog.id
+    console.log('test1', event.target.Comment.value);
+    try {
+      dispatch(addComment(id, event.target.Comment.value))
+
+      dispatch(setNotification(`succesfull commentting`))
+      dispatch(setStyle('good'))
+      event.target.Comment.value = ""
+    } catch (e) {
+      console.log(e);
+      dispatch(setNotification(`failed to comment`))
+      dispatch(setStyle('bad'))
+    }
+  }
+
   const handleRemove = async() => {
     console.log(blog.id)
     if(window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){
@@ -55,6 +73,7 @@ const Blog = ( props ) => {
     }
   }
 
+
   return (
       <div  className='blog'>
         <h1>{blog.title}</h1>
@@ -63,9 +82,16 @@ const Blog = ( props ) => {
         <p>added by {blog.author}</p>
         {blog.user.username ===props.user.username && <button id='remove' type='button' onClick={handleRemove} >remove</button>}
         <h3>comments</h3>
+        <div>
+          <form onSubmit={addCommentt}>
+            <div>
+              <input type="text" id='comment' name="Comment" /><button id='save' type='submit'>add comment </button>
+            </div>
+          </form>
+        </div>
         <ul>
           {blog.comments.map(comment =>
-          <li>{comment}</li>)}
+          <li >{comment}</li>)}
         </ul>
       </div>
     )
