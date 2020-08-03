@@ -62,6 +62,11 @@ const Blog = ( props ) => {
         <p>{blog.likes} <button id='like' type='button' onClick={handleLike}>like</button></p>
         <p>added by {blog.author}</p>
         {blog.user.username ===props.user.username && <button id='remove' type='button' onClick={handleRemove} >remove</button>}
+        <h3>comments</h3>
+        <ul>
+          {blog.comments.map(comment =>
+          <li>{comment}</li>)}
+        </ul>
       </div>
     )
 

@@ -108,6 +108,7 @@ const App = () => {
     //sortBlogs()
     return (
       <div>
+        <h2>blogs</h2>
         <Togglable nimi='add new blog' ref={blogFormRef}>
           <Blogform
             create={blogService.create}
@@ -117,7 +118,7 @@ const App = () => {
         </Togglable>
 
         <div className='blogs'>
-          <h2>blogs</h2>
+
           <ul>
           {blogs.sort(sortBlogs).map(blog =>
             <li key={blog.id} style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author} </Link></li>
@@ -130,10 +131,16 @@ const App = () => {
   console.log(user);
   return (
     <Router>
+
       <Notification noti={notification} type={notistyle}/>
       {user !== null &&
         <div>
-          <p>{user.name} loggeed in</p>
+          <div className='nav'>
+            <Link to='/'>blogs </Link>
+            <Link to='/users'>users</Link>
+            <p>{user.name} loggeed in</p>
+          </div>
+
           <button type='button'
             onClick={handleClick}>
           Logout</button>
