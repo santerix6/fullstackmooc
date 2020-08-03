@@ -3,12 +3,20 @@ import Notification from './components/Notification'
 import Blog from './components/Blog'
 import Blogform from './components/BlogForm'
 import Togglable from './components/Togglable'
+import Users from './components/Users'
+import User from './components/User'
+import { BrowserRouter as Router,
+          Switch, Route,Link, Redirect, useHistory, useParams
+        } from "react-router-dom"
 import blogService from './services/blogs'
 import {useSelector, useDispatch} from 'react-redux'
 import {getBlogs} from './reducers/blogsReduxer'
 import {setNotification} from './reducers/notificationReducer'
 import {setStyle} from './reducers/notificationstyleReducer'
 import {setUser} from './reducers/userReducer'
+import {getUsers} from './reducers/usersReducers'
+
+
 
 const App = () => {
   const dispatch = useDispatch()
@@ -16,6 +24,7 @@ const App = () => {
   const notification = useSelector(state=>state.notification)
   const user = useSelector(state=>state.user)
   const notistyle = useSelector(state=>state.notistyle)
+  const users = useSelector(state=>state.users)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -23,9 +32,15 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getBlogs())
+
   }, [dispatch])
+
+  useEffect(() => {
+    dispatch(getUsers())
+  },[dispatch])
   console.log('asdasdsad',blogs);
   useEffect(() => {
+
     const loggedBlogUserJSON = window.localStorage.getItem('loggedBlogUser')
     console.log(loggedBlogUserJSON);
     if(loggedBlogUserJSON){
@@ -85,12 +100,6 @@ const App = () => {
     //sortBlogs()
     return (
       <div>
-        <div>
-          {user.name} loggeed in
-          <button type='button'
-            onClick={handleClick}>
-          Logout</button>
-        </div>
         <Togglable nimi='add new blog' ref={blogFormRef}>
           <Blogform
             create={blogService.create}
@@ -111,13 +120,34 @@ const App = () => {
       </div>
     )
   }
+  console.log(user);
   return (
-    <div>
+    <Router>
       <Notification noti={notification} type={notistyle}/>
+      {user !== null &&
+        <div>
+          <p>{user.name} loggeed in</p>
+          <button type='button'
+            onClick={handleClick}>
+          Logout</button>
+        </div>
+      }
+      <Switch>
+        <Route path='/users/:id'>
+          <User users={users}/>
+        </Route>
+        <Route path='/users'>
+          {user !== null && <Users users={users}/>}
+          {user === null && loginForm()}
+        </Route>
 
-      {user === null && loginForm()}
-      {user !== null &&  blogsForm()}
-    </div>
+        <Route path='/'>
+
+          {user !== null &&  blogsForm()}
+        </Route>
+      </Switch>
+      </Router>
+
   )
 }
 
