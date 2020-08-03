@@ -15,7 +15,7 @@ const User = (props) => {
       <h3>added blogs</h3>
       <ul>
         {user.blogs.map(blog =>
-          <li>{blog.title}</li>
+          <li key={blog.id}>{blog.title}</li>
         )}
       </ul>
     </div>

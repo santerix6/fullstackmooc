@@ -96,6 +96,14 @@ const App = () => {
       <button id='login-button' type='submit'>login </button>
     </form>
   )
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5,
+    width: 500,
+  }
   const blogsForm = () => {
     //sortBlogs()
     return (
@@ -110,13 +118,12 @@ const App = () => {
 
         <div className='blogs'>
           <h2>blogs</h2>
+          <ul>
           {blogs.sort(sortBlogs).map(blog =>
-            <Blog key={blog.id} blog={blog}
-              blogFormRef={blogFormRef}
-              blogService={blogService}
-              user={user}
-               />
-          )}</div>
+            <li key={blog.id} style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author} </Link></li>
+          )}
+          </ul>
+          </div>
       </div>
     )
   }
@@ -134,15 +141,23 @@ const App = () => {
       }
       <Switch>
         <Route path='/users/:id'>
-          <User users={users}/>
+          {user !== null &&<User users={users}/>}
+          {user === null && loginForm()}
         </Route>
         <Route path='/users'>
           {user !== null && <Users users={users}/>}
           {user === null && loginForm()}
         </Route>
-
+        <Route path='/blogs/:id'>
+          {user !== null && <Blog blogs={blogs}
+            blogFormRef={blogFormRef}
+            blogService={blogService}
+            user={user}
+             />}
+            {user === null && loginForm()}
+        </Route>
         <Route path='/'>
-
+          {user === null && loginForm()}
           {user !== null &&  blogsForm()}
         </Route>
       </Switch>
