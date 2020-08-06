@@ -1,4 +1,5 @@
 import React from 'react'
+import {Table} from 'react-bootstrap'
 import {
           Link
         } from "react-router-dom"
@@ -7,12 +8,13 @@ const Users = (props) => {
     return (
       <div>
         <h2>Users</h2>
-        <table>
-        <tbody>
-          <tr>
-            <th></th>
+        <Table striped>
+          <thead>
+            <th>Users</th>
             <th>blogs created</th>
-          </tr>
+          </thead>
+        <tbody>
+
           {props.users.map(user =>
             <tr key={user.username}>
               <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
@@ -20,7 +22,7 @@ const Users = (props) => {
             </tr>
           )}
           </tbody>
-        </table>
+        </Table>
       </div>
   )
 

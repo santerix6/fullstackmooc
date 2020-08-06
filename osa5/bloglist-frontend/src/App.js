@@ -15,7 +15,7 @@ import {setNotification} from './reducers/notificationReducer'
 import {setStyle} from './reducers/notificationstyleReducer'
 import {setUser} from './reducers/userReducer'
 import {getUsers} from './reducers/usersReducers'
-
+import {Table, Form, Button, Navbar, Nav} from 'react-bootstrap'
 
 
 const App = () => {
@@ -38,9 +38,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getUsers())
   },[dispatch])
-  console.log('asdasdsad',blogs);
   useEffect(() => {
-
     const loggedBlogUserJSON = window.localStorage.getItem('loggedBlogUser')
     console.log(loggedBlogUserJSON);
     if(loggedBlogUserJSON){
@@ -63,7 +61,6 @@ const App = () => {
   }
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging as ', username, password)
     try {
       dispatch(setUser(username,password))
       setUsername('')
@@ -71,6 +68,7 @@ const App = () => {
       dispatch(setNotification(`succesfull login as ${username}`  ))
       dispatch(setStyle('good'))
     } catch (error) {
+      console.log('vituiks män')
       console.log(error);
       dispatch(setNotification('wrong username of password'))
       dispatch(setStyle('bad'))
@@ -83,27 +81,26 @@ const App = () => {
   }
 
   const loginForm = () => (
-
-    <form onSubmit={handleLogin}>
+    <div>
+    <h1>Login</h1>
+    <Form onSubmit={handleLogin}>
+      <Form.Group>
       <div>
-        username <input type='text' value={username} name='Username' id='username'
+        <Form.Label>username:</Form.Label>
+        <Form.Control type='text' value={username} name='Username' id='username'
           onChange={handleUsername}/>
       </div>
       <div>
-        password <input type='password' value={password} name='Password' id='password'
+        <Form.Label>password:</Form.Label>
+         <Form.Control type='password' value={password} name='Password' id='password'
           onChange={({ target }) => setPassword(target.value)}/>
       </div>
-      <button id='login-button' type='submit'>login </button>
-    </form>
+      </Form.Group>
+      <Button id='login-button' type='submit'>login </Button>
+    </Form>
+    </div>
   )
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-    width: 500,
-  }
+
   const blogsForm = () => {
     //sortBlogs()
     return (
@@ -119,11 +116,15 @@ const App = () => {
 
         <div className='blogs'>
 
-          <ul>
+          <Table striped>
+          <tbody>
           {blogs.sort(sortBlogs).map(blog =>
-            <li key={blog.id} style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author} </Link></li>
+            <tr key={blog.id}>
+              <td><Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author} </Link></td>
+            </tr>
           )}
-          </ul>
+          </tbody>
+          </Table>
           </div>
       </div>
     )
@@ -135,15 +136,24 @@ const App = () => {
       <Notification noti={notification} type={notistyle}/>
       {user !== null &&
         <div>
-          <div className='nav'>
-            <Link to='/'>blogs </Link>
-            <Link to='/users'>users</Link>
-            <p>{user.name} loggeed in</p>
-          </div>
-
-          <button type='button'
-            onClick={handleClick}>
-          Logout</button>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Navbar.Brand href="/"><Link to='/'>blogs </Link></Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#"><Link to='/users'>Users </Link></Nav.Link>
+            </Nav>
+            <Nav className="mr-auto">
+              <Navbar.Text>
+                {user.name} loggeed in
+              </Navbar.Text>
+            </Nav>
+            <Button type='button'
+              onClick={handleClick}>
+            Logout</Button>
+          </Navbar.Collapse>
+        </Navbar>
+          
         </div>
       }
       <Switch>

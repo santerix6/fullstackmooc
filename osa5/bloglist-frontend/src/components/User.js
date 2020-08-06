@@ -2,6 +2,7 @@ import React from 'react'
 import {
           useParams
         } from "react-router-dom"
+import {ListGroup} from 'react-bootstrap'
 
 const User = (props) => {
   const id = useParams().id
@@ -13,11 +14,11 @@ const User = (props) => {
     <div>
       <h1>{user.name}</h1>
       <h3>added blogs</h3>
-      <ul>
+      <ListGroup>
         {user.blogs.map(blog =>
-          <li key={blog.id}>{blog.title}</li>
+          <ListGroup.Item key={blog.id} variant="secondary">{blog.title}</ListGroup.Item>
         )}
-      </ul>
+      </ListGroup>
     </div>
   )
 }

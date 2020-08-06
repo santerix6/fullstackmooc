@@ -5,6 +5,9 @@ import {setNotification} from '../reducers/notificationReducer'
 import {setStyle} from '../reducers/notificationstyleReducer'
 import {  useHistory, useParams
         } from "react-router-dom"
+import {ListGroup} from 'react-bootstrap'
+
+
 const Blog = ( props ) => {
   const id = useParams().id
   const blog = props.blogs.find(n=>n.id===id)
@@ -72,7 +75,7 @@ const Blog = ( props ) => {
   return (
       <div  className='blog'>
         <h1>{blog.title}</h1>
-        <a href={blog.url}>{blog.url}</a>
+        <a href='#'>{blog.url}</a>
         <p>{blog.likes} <button id='like' type='button' onClick={handleLike}>like</button></p>
         <p>added by {blog.author}</p>
         {blog.user.username ===props.user.username && <button id='remove' type='button' onClick={handleRemove} >remove</button>}
@@ -84,10 +87,10 @@ const Blog = ( props ) => {
             </div>
           </form>
         </div>
-        <ul>
+        <ListGroup>
           {blog.comments.map((comment, i) =>
-          <li key={i} >{comment}</li>)}
-        </ul>
+          <ListGroup.Item key={i} >{comment}</ListGroup.Item>)}
+        </ListGroup>
       </div>
     )
 
