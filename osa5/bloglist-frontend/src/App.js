@@ -6,7 +6,7 @@ import Togglable from './components/Togglable'
 import Users from './components/Users'
 import User from './components/User'
 import { BrowserRouter as Router,
-          Switch, Route,Link, Redirect, useHistory, useParams
+          Switch, Route,Link
         } from "react-router-dom"
 import blogService from './services/blogs'
 import {useSelector, useDispatch} from 'react-redux'

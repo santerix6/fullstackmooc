@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router,
+import {
           useParams
         } from "react-router-dom"
 

@@ -1,20 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {useDispatch} from 'react-redux'
 import {likeBlog, deleteBlog, addComment} from '../reducers/blogsReduxer'
 import {setNotification} from '../reducers/notificationReducer'
 import {setStyle} from '../reducers/notificationstyleReducer'
-import { BrowserRouter as Router,
-          Switch, Route,Link, Redirect, useHistory, useParams
+import {  useHistory, useParams
         } from "react-router-dom"
 const Blog = ( props ) => {
   const id = useParams().id
   const blog = props.blogs.find(n=>n.id===id)
   const history = useHistory()
   const dispatch = useDispatch()
-  const [row, setRow] = useState(false)
-  const handleClick = () => {
-    setRow(!row)
-  }
   if (!blog) {
     return null
   }
@@ -77,7 +72,7 @@ const Blog = ( props ) => {
   return (
       <div  className='blog'>
         <h1>{blog.title}</h1>
-        <a href='#'>{blog.url}</a>
+        <a href={blog.url}>{blog.url}</a>
         <p>{blog.likes} <button id='like' type='button' onClick={handleLike}>like</button></p>
         <p>added by {blog.author}</p>
         {blog.user.username ===props.user.username && <button id='remove' type='button' onClick={handleRemove} >remove</button>}
@@ -90,8 +85,8 @@ const Blog = ( props ) => {
           </form>
         </div>
         <ul>
-          {blog.comments.map(comment =>
-          <li >{comment}</li>)}
+          {blog.comments.map((comment, i) =>
+          <li key={i} >{comment}</li>)}
         </ul>
       </div>
     )
