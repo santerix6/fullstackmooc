@@ -1,0 +1,17 @@
+{
+  "name": "osa8",
+  "version": "1.0.0",
+  "description": "osa8",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "sane",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.16.1",
+    "graphql": "^15.3.0",
+    "nodemon": "^2.0.4"
+  }
+}
