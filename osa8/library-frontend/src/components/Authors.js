@@ -1,19 +1,13 @@
 
 import React from 'react'
-import {gql, useQuery} from '@apollo/client'
+import {useQuery} from '@apollo/client'
+import {ALL_AUTHORS} from '../queries'
 
-const ALL_AUTHORS = gql`
-  query {
-    allAuthors {
-      name
-      bookCount
-      born
-    }
-  }
-`
 
 const Authors = (props) => {
-  const res = useQuery(ALL_AUTHORS)
+  const res = useQuery(ALL_AUTHORS, {
+    pollInterval: 2000
+  })
   if (res.loading)  {
     return <div>loading...</div>
   }
