@@ -159,7 +159,17 @@ const resolvers = {
     allBooks: async (root, args,context) => {
 
       if(!args.author && !args.genre){
-        return Book.find({})
+        console.log("asdtesti");
+        try{
+          const books = await Book.find({}).populate('author')
+          
+          return books
+        } catch(e){
+          throw new UserInputError(e.message,{
+            invaldiArgs:args,
+          })
+        }
+
        } else if (args.genre) {
          console.log(args.genre);
          try{
