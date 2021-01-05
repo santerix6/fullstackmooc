@@ -15,7 +15,6 @@ const Books = (props) => {
   if (!props.show) {
     return null
   }
-
   return (
     <div>
       <h2>books</h2>
